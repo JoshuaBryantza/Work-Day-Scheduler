@@ -1,7 +1,60 @@
+var rootEl = $('#root');
+var timeSlot = [
+  '9',
+  '10',
+  '11',
+  '12',
+  '13',
+  '14',
+  '15',
+  '16',
+  '17',
+
+];
+
+
 // Wrap all code that interacts with the DOM in a call to jQuery to ensure that
 // the code isn't run until the browser has finished rendering all the elements
 // in the html.
 $(function () {
+  var currentHour = dayjs().hour();
+  console.log(currentHour);
+  for (var i = 0; i < timeSlot.length; i = i + 1) {
+    var currentValue = timeSlot[i];
+
+    //dynamically set the class
+    var timeSlotClass = 'present';
+
+    if (currentValue < currentHour) {
+      timeSlotClass = 'past';
+    } else if (currentValue > currentHour) {
+      timeSlotClass = 'future';
+    }
+
+
+
+    //this section creates the div, textarea, and button 
+    var timeSlotsEl = $('<div>');
+
+    var timeSlotTextEl = $('<div>');
+    var timeSlotTextAreaEl = $('<textarea>');
+    var timeSlotBtnSaveEl = $('<button>');
+    var timeSlotBtnSaveIconEl = $('<i>');
+
+    timeSlotTextEl.text(currentValue);
+
+    timeSlotsEl.addClass('row time-block ' + timeSlotClass);
+    timeSlotTextEl.addClass('col-2 col-md-1 hour text-center py-3');
+    timeSlotTextAreaEl.addClass('col-8 col-md-10 description');
+    timeSlotBtnSaveEl.addClass('btn saveBtn col-2 col-md-1').attr('aria-label', 'save');
+    timeSlotBtnSaveIconEl.addClass("fas fa-save");
+
+    //this section I append the elements 
+    timeSlotBtnSaveEl.append(timeSlotBtnSaveIconEl);
+    timeSlotsEl.append(timeSlotTextEl).append(timeSlotTextAreaEl).append(timeSlotBtnSaveEl);
+
+    rootEl.append(timeSlotsEl);
+  }
   // TODO: Add a listener for click events on the save button. This code should
   // use the id in the containing time-block as a key to save the user input in
   // local storage. HINT: What does `this` reference in the click listener
