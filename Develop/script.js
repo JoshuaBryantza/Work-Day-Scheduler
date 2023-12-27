@@ -10,12 +10,21 @@ var timeSlot = [
   '16',
   '17',
 ];
+function timeDisplayHandler() {
+  const currentDate = dayjs();
+  $("#currentDay").text(currentDate);
+}
 
 $(function () {
+  setInterval(timeDisplayHandler, 1000)
+
   var currentHour = dayjs().hour();
-  console.log(currentHour);
+
+  //create a loop to iterate over the time-slot array
   for (var i = 0; i < timeSlot.length; i++) {
     var currentValue = timeSlot[i];
+
+    const textValue = localStorage.getItem(currentValue);
 
     //dynamically set the class
     var timeSlotClass = 'present';
@@ -45,24 +54,25 @@ $(function () {
     });
     timeSlotBtnSaveIconEl.addClass("fas fa-save");
 
+    if (textValue != null) {
+      timeSlotTextAreaEl.val(textValue);
+    }
+
     //this section I append the elements 
     timeSlotBtnSaveEl.append(timeSlotBtnSaveIconEl);
     timeSlotsEl.append(timeSlotTextEl).append(timeSlotTextAreaEl).append(timeSlotBtnSaveEl);
 
     rootEl.append(timeSlotsEl);
 
-    timeSlotBtnSaveEl.on('click', function (event) {
-      let key = event.target.dataset.slot;
-      let value = $('#hour-' + key)[0].value;
+    timeSlotBtnSaveEl.on('click',
+      function (event) {
+        let key = event.target.dataset.slot;
+        let value = $('#hour-' + key)[0].value;
 
-      localStorage.setItem(key, value);
-    })
+        localStorage.setItem(key, value);
+      }
+    )
   }
 
 });
 
-
-function testFunction(input) {
-  console.log(input);
-  return input[0];
-}
