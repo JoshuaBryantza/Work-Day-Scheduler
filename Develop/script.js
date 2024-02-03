@@ -10,8 +10,8 @@ var timeSlot = [
   '16',
   '17',
 ];
-function timeDisplayHandler() {
 
+function timeDisplayHandler() {
   const currentDate = dayjs(new Date()).format('dddd, MMMM D YYYY, h:mm:ss a');
   $("#currentDay").text(currentDate);
 }
